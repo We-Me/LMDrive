@@ -20,10 +20,10 @@ class GlobalConfig:
     brake_ratio = 1.1  # ratio of speed to desired speed at which brake is triggered
     clip_delta = 0.35  # maximum change in speed input to logitudinal controller
 
-    llm_model = '/data/llava-v1.5-7b'
+    llm_model = '/home/carla/workspaces/LMDrive/ckpt/llava-v1.5-7b'
     preception_model = 'memfuser_baseline_e1d3_return_feature'
-    preception_model_ckpt = 'sensor_pretrain.pth.tar.r50'
-    lmdrive_ckpt = 'lmdrive_llava.pth'
+    preception_model_ckpt = '/home/carla/workspaces/LMDrive/ckpt/vision-encoder-r50.pth.tar'
+    lmdrive_ckpt = '/home/carla/workspaces/LMDrive/ckpt/llava-v1.5-checkpoint.pth'
 
     agent_use_notice = False
     sample_rate = 2
