@@ -15,3 +15,6 @@ wheels/
 third_party/
 ckpt/
 data/
+
+logs/
+results/
