@@ -142,7 +142,7 @@ export CHALLENGE_TRACK_CODENAME="${CHALLENGE_TRACK_CODENAME:-SENSORS}"
 export DEBUG_CHALLENGE="${DEBUG_CHALLENGE:-0}"
 export REPETITIONS="${REPETITIONS:-1}"
 
-export ROUTES="${ROUTES:-${ROOT_DIR}/langauto/benchmark_tiny.xml}"
+export ROUTES="${ROUTES:-${ROOT_DIR}/langauto/benchmark_long.xml}"
 export TEAM_AGENT="${TEAM_AGENT:-${ROOT_DIR}/leaderboard/team_code/lmdriver_agent.py}"
 export TEAM_CONFIG="${TEAM_CONFIG:-${ROOT_DIR}/leaderboard/team_code/lmdriver_config.py}"
 export CHECKPOINT_ENDPOINT="${CHECKPOINT_ENDPOINT:-${ROOT_DIR}/results/sample_result.json}"
