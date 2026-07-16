@@ -18,13 +18,7 @@ from command_catalog import (  # noqa: E402
 class InstructionCatalogTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.catalog = InstructionCatalog(
-            REPO_ROOT
-            / "leaderboard"
-            / "leaderboard"
-            / "envs"
-            / "instruction_dict.json"
-        )
+        cls.catalog = InstructionCatalog(TEST_DIR / "instruction_dict.json")
 
     def test_all_65_symbols_match_their_ids(self):
         self.assertEqual(65, len(INSTRUCTION_SYMBOLS))

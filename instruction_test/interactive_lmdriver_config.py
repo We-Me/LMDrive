@@ -1,13 +1,6 @@
-"""Configuration overlay for the interactive LMDrive agent.
-
-Defaults are inherited from the project's existing configuration. Environment
-variables make checkpoint locations and notice testing configurable without
-editing any tracked LMDrive source file.
-"""
+"""Self-contained configuration for native route-free LMDrive inference."""
 
 import os
-
-from lmdriver_config import GlobalConfig as BaseGlobalConfig
 
 
 def _enabled(name, default=False):
@@ -17,14 +10,36 @@ def _enabled(name, default=False):
     return value.strip().lower() in ("1", "true", "yes", "on")
 
 
-class GlobalConfig(BaseGlobalConfig):
-    llm_model = os.environ.get("LMDRIVE_LLM_MODEL", BaseGlobalConfig.llm_model)
+class GlobalConfig:
+    # Original LMDrive PID parameters.
+    turn_KP = 1.25
+    turn_KI = 0.75
+    turn_KD = 0.3
+    turn_n = 40
+    speed_KP = 5.0
+    speed_KI = 0.5
+    speed_KD = 1.0
+    speed_n = 40
+    max_throttle = 0.75
+    brake_speed = 0.1
+    brake_ratio = 1.1
+    clip_delta = 0.35
+
+    llm_model = os.environ.get(
+        "LMDRIVE_LLM_MODEL", "/home/ndsl/workspaces/LMDrive/ckpt/llava-v1.5-7b"
+    )
+    preception_model = "memfuser_baseline_e1d3_return_feature"
     preception_model_ckpt = os.environ.get(
-        "LMDRIVE_VISION_CKPT", BaseGlobalConfig.preception_model_ckpt
+        "LMDRIVE_VISION_CKPT",
+        "/home/ndsl/workspaces/LMDrive/ckpt/vision-encoder-r50.pth.tar",
     )
     lmdrive_ckpt = os.environ.get(
-        "LMDRIVE_CHECKPOINT", BaseGlobalConfig.lmdrive_ckpt
+        "LMDRIVE_CHECKPOINT",
+        "/home/ndsl/workspaces/LMDrive/ckpt/llava-v1.5-checkpoint.pth",
     )
-    agent_use_notice = _enabled(
-        "LMDRIVE_USE_NOTICE", BaseGlobalConfig.agent_use_notice
-    )
+    agent_use_notice = _enabled("LMDRIVE_USE_NOTICE", False)
+    sample_rate = 2
+
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)

@@ -14,7 +14,7 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 
 # The order is the authoritative ID order used by
-# leaderboard/leaderboard/envs/instruction_dict.json and the data parsers.
+# The order matches LMDrive's official instruction dictionary and data parsers.
 INSTRUCTION_SYMBOLS: Tuple[str, ...] = (
     "Turn-01-L",
     "Turn-01-R",

@@ -32,7 +32,6 @@ CARLA_WEATHER="${CARLA_WEATHER:-ClearNoon}"
 export LMDRIVE_INITIAL_COMMAND="${LMDRIVE_INITIAL_COMMAND:-Other-03}"
 export LMDRIVE_TEMPLATE_INDEX="${LMDRIVE_TEMPLATE_INDEX:-0}"
 export LMDRIVE_SAVE_FRAMES="${LMDRIVE_SAVE_FRAMES:-0}"
-export SAVE_PATH="${SAVE_PATH:-${TEST_DIR}/output/frames}"
 export PYTHONUNBUFFERED=1
 
 PYTHON_BIN="${ROOT_DIR}/.venv/bin/python"
@@ -58,14 +57,13 @@ if [ ! -x "${CARLA_SERVER}" ]; then
 fi
 
 export PYTHONPATH="${ROOT_DIR}:${PYTHONPATH:-}"
-export PYTHONPATH="${ROOT_DIR}/leaderboard:${PYTHONPATH}"
-export PYTHONPATH="${ROOT_DIR}/leaderboard/team_code:${PYTHONPATH}"
-export PYTHONPATH="${ROOT_DIR}/scenario_runner:${PYTHONPATH}"
+export PYTHONPATH="${ROOT_DIR}/LAVIS:${PYTHONPATH}"
+export PYTHONPATH="${ROOT_DIR}/vision_encoder:${PYTHONPATH}"
 export PYTHONPATH="${CARLA_ROOT}/PythonAPI:${PYTHONPATH}"
 export PYTHONPATH="${CARLA_ROOT}/PythonAPI/carla:${PYTHONPATH}"
 export PYTHONPATH="${CARLA_EGG}:${PYTHONPATH}"
 
-mkdir -p "${TEST_DIR}/output" "${SAVE_PATH}" "$(dirname "${CARLA_LOG}")"
+mkdir -p "${TEST_DIR}/output" "${TEST_DIR}/output/frames" "$(dirname "${CARLA_LOG}")"
 
 carla_is_ready() {
     "${PYTHON_BIN}" - <<'PY' >/dev/null 2>&1
@@ -177,12 +175,13 @@ if [ ! -t 0 ]; then
     echo "[WARNING] stdin is not a TTY; terminal instructions may be unavailable."
 fi
 
-echo "Starting route-free LMDrive instruction test:"
+echo "Starting native route-free LMDrive instruction test:"
 echo "  map:              ${CARLA_TOWN}"
 echo "  spawn point:      ${SPAWN_POINT_INDEX}"
 echo "  ego vehicle:      ${EGO_VEHICLE}"
 echo "  background count: ${BACKGROUND_VEHICLES}"
 echo "  initial command:  ${LMDRIVE_INITIAL_COMMAND}"
+echo "  control source:   raw LMDrive waypoints + original PID math"
 
 "${PYTHON_BIN}" -u "${TEST_DIR}/standalone_client.py" \
     --host "${CARLA_HOST}" \
@@ -192,5 +191,4 @@ echo "  initial command:  ${LMDRIVE_INITIAL_COMMAND}"
     --spawn-point "${SPAWN_POINT_INDEX}" \
     --vehicle "${EGO_VEHICLE}" \
     --background-vehicles "${BACKGROUND_VEHICLES}" \
-    --weather "${CARLA_WEATHER}" \
-    --agent-config "${TEST_DIR}/interactive_lmdriver_config.py"
+    --weather "${CARLA_WEATHER}"
